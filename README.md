@@ -242,11 +242,11 @@ In the previous segment, you saw a demonstration on how the change of basis led 
 
 As you saw above, when you have one dimension, the calculations for the change of basis are pretty straightforward. All you need to do here is to multiply the factor M which gives you the method of transforming from one basis to another.
 
-![title](img/change-basis-cal1.JPG)
+![title](img/change-basis-cal1.jpg)
 
 And to go in the opposite direction you simply have to divide by that factor M. Note that here M is a simple scalar since there is only one dimension involved.
 
-![title](img/change-basis-cal2.JPG)
+![title](img/change-basis-cal2.jpg)
 
 But when the transformation requires 2 or more dimensions, what to do then? Let's find out.
 
