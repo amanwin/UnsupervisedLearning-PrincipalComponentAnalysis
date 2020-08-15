@@ -315,7 +315,7 @@ So the key takeaway from the above segment is to measure the importance of a col
 ### Geometrically Interpretation of Variance
 In the above example you saw that the variance of height was only 14, whereas that of weight was 311.14. This gave you an idea that Weight is a more important column than Height. Now, there is another elegant way of looking at variance geometrically. Take a look at the following image.
 
-![title](img/variance-as-spread.JPG)
+![title](img/variance-as-spread.jpg)
 
 The red line on the Height and Weight axes show the **spread** of the projections of the vectors on those axes. As you can see here, the spread of the line is quite good on the Weight axis as compared to the Height axis. Hence you can say that Weight has more variance than Height. This idea of the spread of the data being equivalent to the variance is quite an elegant way to distinguish the important directions from the non-important ones.
 
@@ -324,7 +324,7 @@ So you saw that when the variances are unequally distributed among the original 
 
 But what about the scenario when the variances are pretty similar? For example, take a look at the following image containing the height and weight information of a different group of patients.
 
-![title](img/Spread-image2.JPG)
+![title](img/Spread-image2.jpg)
 
 As you can see, the spread along both the axes is quite comparable and therefore, you can't directly go and say that one direction is more useful than the other. What to do now?
 
