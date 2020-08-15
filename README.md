@@ -282,3 +282,67 @@ In this segment, we will drive home the concept of Change in Basis. For this ima
 ![title](img/comprehension2.JPG)
 
 ![title](img/comprehension-python.JPG)
+
+
+## Fundamentals of PCA: II
+
+### Introduction to Variance
+In the previous session, you learnt about the first fundamental building block for learning PCA - the idea of basis and the change of basis. You saw how a simple change of basis led to dimensionality reduction in the case of the roadmap example and then understood how you can represent the same data in multiple basis vectors.
+
+However, we didn't know as to how to find those "ideal basis vectors" and what exact properties they must satisfy. In this session, we'll get to do that by understanding the idea of **variance as information**.
+
+As mentioned previously, you have already learnt certain methods through which you delete columns – by checking the number of null values, unnecessary information and in modelling by checking the p-values and VIF scores.
+
+PCA gauges the importance of a column by another metric called **‘variance’** or how varied a column’s values are.
+
+Let's go ahead and look at some examples in the next segment and get an intuitive idea of what variance actually means.
+
+### Variance as Information
+Let's take a look at a simple example that will help us intuitively understand how variance in the data is equivalent to information we can extract out of the data.
+
+![title](img/image1-ex.JPG)
+
+![title](img/image2-ex.JPG)
+
+As you saw in the example, the first image didn't have much information in it. Speaking of it in the ways the pixels are arranged, it is the same colour throughout. However, there is a lot of things that you could distinguish easily in the second image and therefore that image has a lot to offer in terms of information. The pixels have a lot of variety and therefore that image has more variance and equivalently, more information.
+
+![title](img/variance.png)
+
+![title](img/variance1.JPG)
+
+So the key takeaway from the above segment is to measure the importance of a column by checking its variance values. If a column has more variance, then this column will contain more information.
+
+### Geometrically Interpretation of Variance
+In the above example you saw that the variance of height was only 14, whereas that of weight was 311.14. This gave you an idea that Weight is a more important column than Height. Now, there is another elegant way of looking at variance geometrically. Take a look at the following image.
+
+![title](img/variance-as-spread.JPG)
+
+The red line on the Height and Weight axes show the **spread** of the projections of the vectors on those axes. As you can see here, the spread of the line is quite good on the Weight axis as compared to the Height axis. Hence you can say that Weight has more variance than Height. This idea of the spread of the data being equivalent to the variance is quite an elegant way to distinguish the important directions from the non-important ones.
+
+### Directions of Maximum Variance
+So you saw that when the variances are unequally distributed among the original features or columns i.e. some columns have much less variance than others, it is easier to remove those columns and do dimensionality reduction.
+
+But what about the scenario when the variances are pretty similar? For example, take a look at the following image containing the height and weight information of a different group of patients.
+
+![title](img/Spread-image2.JPG)
+
+As you can see, the spread along both the axes is quite comparable and therefore, you can't directly go and say that one direction is more useful than the other. What to do now?
+
+Let’s look at the next segment to further understand this problem and appreciate how smartly PCA solves this problem.
+
+![title](img/max-variance.JPG)
+
+After going through the above segment, you have more or less understood what PCA does. It changes the basis vectors in such a way that the new basis vectors capture the maximum variance or information.
+
+### The Workings of PCA
+Until now, you've learnt the two building blocks of PCA: Basis and variance. In the following segment, we will make use of both the terms to make you understand the objective that PCA aims to achieve.
+
+The ideal basis vectors that we wanted has the following properties:
+* They explain the directions of maximum variance
+* When used as the new set of basis vectors, the transformed dataset is now suitable for dimensionality reduction.
+* These directions explaining the maximum variance are called the **Principal Components** of our data.
+
+![title](img/Question3.JPG)
+
+[Answer](dataset/answer.ipynb)
+
