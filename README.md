@@ -346,3 +346,156 @@ The ideal basis vectors that we wanted has the following properties:
 
 [Answer](dataset/answer.ipynb)
 
+### The Algorithm of PCA
+This session will introduce you to the following topics: 
+* Covariance Matrix
+* Eigendecomposition
+* Algorithm of PCA
+
+### Covariance Matrix
+In the previous session, you learnt about how to find the variance of a particular column to measure its importance.  However, this does not capture the inter column relationship or the correlations between the variables. This information is essential since we also want to make sure that the multicollinearity in our dataset is minimum. In order to capture the covariance or the correlations between the columns, we use the covariance matrix. Let's look at the following segment to understand that.
+
+![title](img/covariance.JPG)
+
+The covariance matrix is one such matrix that not only captures the variance but also the covariance information as well.
+
+The covariance  between 2 columns X and Y is given by the following formula
+
+![title](img/covariance-formula.JPG)
+
+You need not calculate the values mathematically as there is a functionality in Python already available which shall be covered shortly. Nevertheless, you can check this link (https://corporatefinanceinstitute.com/resources/knowledge/finance/covariance/) to further understand how this value is calculated.
+
+Here's a list of properties of the covariance matrix:
+
+![title](img/covariance-content.JPG)
+
+[Covariance in Python](dataset/Covariance.ipynb)
+
+As mentioned earlier, the reason you study the covariance matrix is to capture all the information in the dataset - variance along the columns as well as the inter-column covariance. Now using this matrix, we'll be able to deduce the directions of maximum variance and we'll be learning how to do that in the upcoming segment.
+
+### Transforming the Covariance Matrix
+In the previous segment, you understood the structure of a covariance matrix and how it captures the intercolumnar variance. In this segment, you shall see how it plays a role in the algorithm of PCA. But first, let's go ahead and compute the covariance matrix in the following example.
+
+So the given dataset A is as follows:
+
+![title](img/covariance-dataset.jpg)
+
+and the associated covariance matrix is given by 
+
+![title](img/covariance-matrix.JPG)
+
+![title](img/covariance-matrix1.JPG)
+
+From here, we can observe that there is some correlation between the X and Y columns. Let's see what happens to the covariance matrix when we take another basis to represent the same points
+
+#### Covariance Matrix in New Basis
+Let's say that the same friend, who earlier gave you the smart suggestion in the roadmap example comes around again and asks you to represent your data in the following basis
+
+![title](img/covariance-newbasis.JPG)
+
+He tells you that you'll observe something interesting with the covariance matrix when the data is represented in this basis. Let's check out your friend's claims.
+
+![title](img/covariance-newbasis1.png)
+
+So as per your friend's suggestion, you went ahead and transformed the dataset and computed the covariance matrix for the new dataset A′. The new covariance matrix is as follows:
+
+![title](img/new-covariance.JPG)
+
+Well, now that the 2 features are **nearly uncorrelated**, there is no dependence or correlation of one direction on the other. This process of converting the covariance matrix with only non-zero diagonal elements and 0 values everywhere else is also known as **diagonalisation**.
+
+### Creating Uncorrelated Features
+
+Now you must be wondering "How does finding new basis vectors where the covariance matrix only has non-zero values along the diagonal and 0 elsewhere help us?"
+
+Well now,
+
+* Your new basis vectors are all uncorrelated and independent of each other.
+* Since variance is now explained only by the new basis vectors themselves, you can find the directions of maximum variance by checking which value is higher than the rest numerically. There is no correlation to take into account this time. All the information in the dataset is explained by the columns themselves.
+
+So now, your new basis vectors are **uncorrelated, hence linearly independent**, and **explain the directions of maximum variance**. 
+
+As a matter of fact, these basis vectors are the **Principal Components** of the original matrix. The algorithm of PCA seeks to find those new basis vectors that diagonalise the covariance when the same data is represented on this new basis. And then these vectors would have all the above properties that we require and therefore would help us in the process of dimensionality reduction.
+
+Let's now go ahead and learn about how PCA obtains these special vectors, in the next segment.
+
+### Eigendecomposition
+In the previous segment, you were already provided with the changed basis such that the non-diagonal elements in the covariance matrix had ~0 values. In other words, you somehow obtained the principal components and then observed that the covariance matrix has been diagonalized. But in real life, you need to find these components. Let's see how you find these principal components in the next segment.
+
+![title](img/pca-algo.JPG)
+
+We need to do find something known as **eigenvectors** of the covariance matrix using a process called **Eigendecomposition**. These eigenvectors would be the new set of basis vectors in whose representation, the covariance matrix will be diagonalized. Therefore these would be the new principal components.
+
+Here's a brief overview of what eigendecomposition is and how it is applied on the covariance matrix to give us the eigenvectors. Please note that though it is recommended that you understand the text below you can perform the eigendecomposition in a couple of steps in Python.
+
+### An overview of Eigendecomposition
+Basically, for any square matrix **A**, its **eigenvectors** are all the vectors **v** which satisfy the following equation:
+
+![title](img/eigen-vector.JPG)
+
+The process of finding the eigenvalues and eigenvectors of a matrix is known as eigendecomposition.
+In general, if the size of matrix A is n ( i.e. it is a n x n matrix) then, there will be at most n eigenvectors that can be formed. As you saw in the above case, A is a 2 x 2 matrix and hence it had 2 eigenvectors.
+
+Note: This is a brief overview of what eigenvectors and eigenvalues are and it is sufficient for you right now in the context of PCA. If you want to learn further about eigenvectors and how they're found out, please go through the additional link mentioned here (https://learn.upgrad.com/v/course/587/session/84815/segment/474213). 
+
+### Eigendecomposition of Covariance Matrix
+Now, continuing from the previous segment, we wanted to find a new set of basis vectors where the covariance matrix gets diagonalised. It turns out that these new set of basis vectors are in fact the eigenvectors of the Covariance Matrix. And therefore these eigenvectors are the Principal Components of our original dataset. In other words, these eigenvectors are the directions that capture maximum variance.
+
+But what about the eigenvalues? What do they signify?
+
+Well, the **eigenvalues** are indicators of **the variance explained by that particular direction** or eigenvector. So higher is the eigenvalue, higher is the variance explained by that eigenvector and hence that direction is more important for us.
+
+![title](img/summary.JPG)
+
+**Additional Links**
+
+* Note that we haven't covered why doing an eigendecomposition on the covariance matrix yields us the Principal Components. This part is beyond the scope of the current module and therefore if you're curious about learning why this method works, you can take a look at this link (https://math.stackexchange.com/questions/23596/why-is-the-eigenvector-of-a-covariance-matrix-equal-to-a-principal-component).
+* Apart from eigendecomposition, there are more generalised algorithms that are used to perform PCA right now such as the Singular Value Decomposition, about which you can read from this link (https://medium.com/data-science-group-iitr/singular-value-decomposition-elucidated-e97005fb82fa).
+
+### Algorithm of PCA
+In the previous segments, you saw that you first calculate the covariance of columns of the dataset and then calculate the eigenvectors of the covariance matrix which acts as the basis of the new representation. Having this understanding, let's first summarize this process of PCA and then subsequently take a look at a Demonstration to concretize our understanding.
+
+![title](img/algo-for-pca.JPG)
+
+So formally, you now understand what the algorithm of PCA does. Here's a flowchart that summarises the important steps.
+
+![title](img/algo-for-pca-flow.png)
+
+### Demonstration
+Here's a short demonstration that shows how these directions are found. We'll be using the same roadmap example that you saw earlier. Earlier your friend found the new directions visually, without any additional computations. Let's see how PCA does the same using the algorithm that you just saw above.
+
+Here we've the coordinates of the various locations in the original basis as shown in the image below:
+
+![title](img/coordinates.JPG)
+
+Let's write the datapoints in matrix form now:
+
+![title](img/dataset1.png)
+
+Now let's go ahead and perform the steps of the PCA algorithm on this dataset.
+
+* Step 1: Finding the covariance matrix 
+  
+  First, we need to compute the covariance matrix of A. This comes out to be the following.(You can use numpy.cov to find the covariance matrix as well)
+ 
+  ![title](img/dataset-covariance.JPG)
+
+* Step 2: Eigendecomposition of the covariance matrix
+
+Next, we need to find the eigenvectors of the covariance matrix C which would be the Principal Components of the original dataset A. They come out to be the following:
+(You can use the np.linalg.eig function to compute them)
+
+![title](img/eigen-vector-values.JPG)
+
+These eigenvectors form the new set of basis vectors.The eigenvectors represent the new set of basis vectors or directions along which the points need to be represented now. The new directions can be visualised below along the green lines:
+
+![title](img/eigen-graph.jpg)
+
+![title](img/algo-pca.JPG)
+
+![title](img/algo-pca1.JPG)
+
+![title](img/algo-pca2.JPG)
+
+![title](img/algo-pca3.JPG)
+
+[Demonstration:Algorithm of PCA](dataset/Algorithm+of+PCA+Demonstration.ipynb)
