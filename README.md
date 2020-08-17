@@ -465,7 +465,7 @@ Here's a short demonstration that shows how these directions are found. We'll be
 
 Here we've the coordinates of the various locations in the original basis as shown in the image below:
 
-![title](img/coordinates.JPG)
+![title](img/coordinates.jpg)
 
 Let's write the datapoints in matrix form now:
 
@@ -494,8 +494,181 @@ These eigenvectors form the new set of basis vectors.The eigenvectors represent 
 
 ![title](img/algo-pca1.JPG)
 
-![title](img/algo-pca2.JPG)
+![title](img/algo-pca2.jpg)
 
 ![title](img/algo-pca3.JPG)
 
 [Demonstration:Algorithm of PCA](dataset/Algorithm+of+PCA+Demonstration.ipynb)
+
+### PCA in Python
+
+### Introduction
+Welcome to the fourth session of PCA. In the previous session, you discovered and learnt the theoretical concepts of PCA. In this session, you will learn how to implement PCA in python on some real examples.
+
+In this session, you will learn how to use PCA on a problem you have already encountered before - predicting telecom churn using logistic regression. You will now learn to implement PCA in tandem with logistic regression.
+
+### Applying PCA using Python
+For this demonstration, we begin with a very popular machine learning dataset - 'Iris'. In the next few segments, you will learn the necessary steps needed to perform PCA on a dataset and then appreciate how it helps in visualising your data that contains more than two dimensions.
+
+You can download the dataset and the python notebook used in the demonstration from the link given below:
+
+[Iris Dataset](dataset/Iris.csv)
+
+[PCA Demo Iris](dataset/PCADemoIris.ipynb)
+
+Here is a summary of the important steps that you've performed and something that you should do whenever you perform PCA on any other dataset as well.
+
+1. After basic data cleaning procedures, standardise your data
+2. Once standardisation has been done, you can go ahead and perform PCA on the dataset. For doing this you import the necessary libraries from sklearn.decomposition.
+
+![title](img/pca-library.JPG)
+
+3. Instantiate the PCA function and set the random state to some specific number so that you get the same result every time you execute that code. (If you want to learn more about random state and how it works, you can check this StackOverflow answer (https://stackoverflow.com/questions/42191717/python-random-state-in-splitting-dataset/42197534#42197534))
+
+![title](img/pca-python.JPG)
+
+4.  Perform PCA on the dataset by using the pca.fit function. 
+
+![title](img/pca-python1.JPG)
+
+The above function does both the steps: **finding the covariance matrix and doing an eigendecomposition of it to obtain the eigenvectors**, which are nothing but the **Principal Components** of the original dataset.
+
+5. The Principal Components can be accessed using the following code
+
+![title](img/pca-python2.JPG)
+
+Executing the above code will give the list of Principal components of the original dataset. They'll be of the same number as the original variables in your dataset. In the next segment, you shall see how to choose the optimal number of principal components.
+
+### Scree Plots
+In the previous segment, you learnt how to perform PCA on your dataset and obtain the Principal Components. The final PCs that you got were as follows:
+
+![title](img/pca-python3.JPG)
+
+PC1 is given by the direction - [0.52  -0.26  0.58   0.56], PC2 by  [0.37 0.92 0.02 0.06] and so on. The principal components of the same number as that of the original variables with each Principal Component explaining some amount of variance of the entire dataset. This information would enable us to know which Principal Components to keep and which to discard to perform Dimensionality Reduction. 
+
+Let's understand it further in the following demonstration, where you'll also come to know about **scree plots** and how they help in communicating the variance information very effectively.
+
+Here's a summary of the important steps that you performed 
+
+1. First, you came to know how much variance is being explained by each Principal Component using the following code
+
+![title](img/pca-python4.JPG)
+
+The values that you got were as follows
+
+![title](img/pca-python5.JPG)
+
+The above values can be summarised in the following table
+
+![title](img/pca-python6.JPG)
+
+So as you can see, the first PC, i.e. Principal Component 1([0.52  -0.26  0.58   0.56]) explains the maximum information in the dataset followed by PC2 at 23% and PC3 at 3.6%. In general, when you perform PCA, all the Principal Components are formed in decreasing order of the information that they explain. Therefore, the first principal component will always explain the highest variance, followed by the second principal component and so on. This order helps us in our dimensionality reduction exercise, as now we know which directions are more important than the others. 
+
+Now, in our dataset, we only had 4 columns and equivalently 4 PCs. Therefore it was easy to visualise the amount of variance explained by them using a simple bar plot and then we're able to make a call as to how much variance to keep in the data. For example, using the table above, you only need 2 principal components or 2 directions (PC1 and PC2) to explain more than 95% of the variation in the data.
+
+But what happens when there are hundreds of columns? Using the above process would be cumbersome since you'd need to look at all the PCs and keep adding their variances up to find the total variance captured.
+
+2. Using a **Scree-Plot**
+An elegant solution here would be to simply add plot a "Cumulative variance explained chart" Here against each number of components, we have the total variance explained by all the components till then.
+
+![title](img/pca-python7.JPG)
+
+So for example, cumulative variance explained by the top 2 principal components is the sum of their individual variances, given by 72.8 +23 =95.8 %. Similarly, you can continue this for 3 and 4 components.
+
+If you plot the number of components on the X-axis and the total variance explained on the Y-axis, the resultant plot is also known as a Scree-Plot. It would look somewhat like this:
+
+![title](img/scree-plot.png)
+
+Now, this is a better representation of variance and the number of components needed to explain that much variance. 
+
+### Dimensionality Reduction
+In the previous two segments, you understood how to apply PCA on a dataset followed by the importance of scree-plots. Now that you know how many principal components you need to explain a certain amount of variance, let's go and finally do dimensionality reduction on our dataset using the Principal Components that we've chosen.
+
+Here's a summary of the important steps that you saw above:
+
+1. Choosing the required number of components
+
+From the scree plot that you saw previously, you decided to keep ~95% of the information in the data that we have and for that, you need only 2 components. Hence you instantiate a new PCA function with the number of components as 2. This function will perform the dimensionality reduction on our dataset and reduce the number of columns from 4 to 2.
+
+![title](img/pca-python8.JPG)
+
+2. Perform Dimensionality Reduction on our dataset.
+Now you simply transform the original dataset to the new one where the columns are given by the Principal Components. Here you've finally performed the dimensionality reduction on the dataset by reducing the number of columns from 4 to 2 and still retain 95% of the information. The code that you used to perform the same step is as follows:
+
+![title](img/pca-python9.JPG)
+
+and the new dataset is given as follows:
+
+![title](img/pca-python10.JPG)
+
+3. Data Visualisation using the PCs
+Now that you have got the data in 2 dimensions, it is easier for you to visualise the same using a scatterplot or some other chart. By plotting the observations that we have and dividing them on the basis of the species that they belong to we got the following chart:
+
+![title](img/pca-python11.JPG)
+
+As you can see, you clearly see that all the species are well segregated from each other and there is little overlap between them. This is quite good as such insight was not possible with higher dimensions as you won't be able to plot them on a 2-D surface. So, therefore, applying  PCA on our data is quite beneficial for observing the relationship between the data points quite elegantly.
+
+**Important Note**: When you perform PCA on datasets generally, you may need more than 2 components to explain an adequate amount of variance in the data. In those cases, if you want to visualise the relationship between the observations, choose the top 2 Principal Components as your X and Y axes to plot a scatterplot or any such plot to do the same. Since PC1 and PC2 explain the most variance in the dataset, you'll be getting a good representation of the data when you visualise your dataset on those 2 columns.
+
+### Improving Model Performance - I
+In the previous segments, you saw how to perform dimensionality reduction using PCA and then immediately were introduced to one of its key applications which is for data visualisation. However, the most common application of PCA is to improve your model's performance. So in real life, you use PCA in conjunction with any other model like Linear Regression, Logistic Regression, Clustering amongst others in order to make the process more efficient. In the following demonstration, you'll be looking at both the scenarios - performing model building without PCA and then with PCA to appreciate how much faster it is to get similar or better results in the latter case.
+
+Download the datasets and the python notebook for this demonstration from the link given below:
+
+[Model Building with PCA](dataset/LogisticRegression-TelecomChurnwithPCA.ipynb)
+
+**Overview of the Demo**
+
+For this demonstration, our main model will be a logistic regression setup. As mentioned above, first we'll be performing Logistic Regression directly without any PCA. For this demo, we'll be using the Telecom Churn dataset that you have worked earlier with.
+
+**Model Building without PCA**
+
+Since you're already familiar with the data and the logistic regression model that you built, here's a quick walkthrough to refresh your memory.
+
+You saw the process of building a churn prediction model using logistic regression. Some important problems with this process that are pointed out are:
+* **Multicollinearity** among a large number of variables, which is not totally avoided even after reducing variables using RFE (or a similar technique)
+Need to use a **lengthy iterative procedure**, i.e. identifying collinear variables, using variable selection techniques, dropping insignificant ones etc.
+A **potential loss of information** due to dropping variables
+**Model instability** due to 
+
+If you remember the first session, we discussed all these points as potential issues that plague our model building activity. Now let's go ahead and perform PCA on the dataset and then apply Logistic Regression and see if we get any better results
+
+**Model Building with PCA**
+In the second part, first, we'll reduce the dimensions that we have using PCA and then create a logistic regression model on it.
+
+As you could see, with PCA, you could achieve the same results with just a couple of lines of code. It will be helpful to note that the baseline PCA model has performed at par with the best Logistic Regression model built after the feature elimination and other steps.
+
+PCA helped us solve the problem of multicollinearity (and thus model instability), loss of information due to the dropping of variables, and we don't need to use iterative feature selection procedures. Also,  our model becomes much faster because it has to run on a smaller dataset. And even then, our ROC score, which is a key model performance metric is similar to what we achieved previously.
+
+To sum it up, if you're doing any sort of modelling activity on a large dataset containing lots of variables, it is a good practice to perform PCA on that dataset first, reduce the dimensionality and then go ahead and create the model that you wanted to make in the first place. You are advised to perform PCA on the datasets that you worked on in Linear Regression and Clustering as well, to see how it makes our job easier.
+
+### Improving Model Performance - II
+Till now, you've been looking at the scree-plot to choose the number of components that explain a certain amount of variance before going for the dimensionality reduction using PCA. Now, there is a nice functionality which makes this process even more unsupervised. All you need to do is select the amount of variance that you want your final dataset to capture and PCA does the rest for you. Let's take a look at the following demonstration to see how we can do the same.
+
+As you saw above, all you needed to do was select a particular amount of variance that you want to be explained by the Principal Components of the transformed dataset. PCA automatically chooses the appropriate number of components on its own and proceeds with the transformation. This again saves us a lot of time!
+
+### Practical Considerations and Alternatives
+Until now, you know the in and out of PCA and how to implement in Python and hence, you should be aware when to apply PCA. Let's now look at some practical considerations that need to be kept in mind while applying PCA.
+
+Those were some important points to remember while using PCA. To summarise:
+
+* Most software packages use SVD to compute the principal components and assume that the data is **scaled and centred**, so it is important to do standardisation/normalisation.
+* PCA is a **linear transformation method** and works well in tandem with linear models such as linear regression, logistic regression etc., though it can be used for computational efficiency with non-linear models as well.
+It should **not be used forcefully to reduce dimensionality** (when the features are not correlated).
+
+You learnt some important shortcomings of PCA:
+
+* PCA is limited to linearity, though we can use **non-linear techniques such as t-SNE** as well (you can read more about t-SNE in the optional reading material below).
+* PCA needs the components to be perpendicular, though in some cases, that may not be the best solution. The alternative technique is to use **Independent Components Analysis**. 
+* PCA assumes that columns with low variance are not useful, which might not be true in prediction setups (especially classification problem with a high class imbalance).
+
+If you are interested in reading about t-SNE (t-Distributed Stochastic Neighbor Embedding) or ICA, you can go through the additional reading provided below.
+
+**Additional Reading**<br/>
+**t-SNE**
+* Laurens van der Maaten's (creator of t-SNE) website (https://lvdmaaten.github.io/tsne/)
+* Visualising data using t-SNE: Journal of Machine Learning Research (https://www.jmlr.org/papers/volume9/vandermaaten08a/vandermaaten08a.pdf)
+* How to use t-SNE effectively(https://distill.pub/2016/misread-tsne/)
+
+**Independent Components Analysis** <br/>
+* Stanford notes on ICA(http://cs229.stanford.edu/notes/cs229-notes11.pdf)
